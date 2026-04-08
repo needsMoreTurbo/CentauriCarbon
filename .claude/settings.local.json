@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep:*)",
+      "Bash(find /c/Users/Kyle/projects/CentauriCarbon -type f \\\\\\(-name *.pdf -o -name *schematic* -o -name *hardware* -o -name *pinout* \\\\\\))",
+      "Bash(find /c/Users/Kyle/projects/CentauriCarbon/firmware -name \"*.cpp\" -exec grep -l \"gcode\\\\|print.*job\\\\|job.*print\" {})"
+    ]
+  }
+}
