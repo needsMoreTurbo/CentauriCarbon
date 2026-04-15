@@ -2,6 +2,15 @@
 ;printer_model:[printer_model]
 ;initial_filament:{filament_type[initial_extruder]}
 ;curr_bed_type:{curr_bed_type}
+;;===== machine_start-auto_level.gcode ===========================
+;; Version : 1.1.0
+;; Date    : 2026-04-08
+;; Author  : needsMoreTurbo
+;;
+;; Changelog:
+;;   1.1.0 (2026-04-08) - Optimized heat soak; removed/commented redundant commands
+;;   1.0.0 (2024-05-20) - Initial version
+;;================================================================
 M8213 ; Turn on light
 M400 ; wait for buffer to clear
 M220 S100 ;Set the feed speed to 100%
