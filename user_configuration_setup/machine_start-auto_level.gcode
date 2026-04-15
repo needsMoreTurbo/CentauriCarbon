@@ -8,9 +8,17 @@
 ;; Author  : needsMoreTurbo
 ;;
 ;; Changelog:
+;;   1.2.0 (2026-04-15) - Added bed_mesh_mode flag (0=skip, 1=fast, 2=full)
 ;;   1.1.0 (2026-04-08) - Optimized heat soak; removed/commented redundant commands
 ;;   1.0.0 (2024-05-20) - Initial version
 ;;================================================================
+;;
+;; ===== FLAGS (set via OrcaSlicer printer profile → Machine custom variables) =====
+;; bed_mesh_mode = {bed_mesh_mode}
+;;   0 = skip bed mesh calibration entirely (use existing mesh)
+;;   1 = run BED_MESH_CALIBRATE METHOD=fast
+;;   2 = run BED_MESH_CALIBRATE (full probe)
+;; ================================================================================
 M8213 ; Turn on light
 M400 ; wait for buffer to clear
 M220 S100 ;Set the feed speed to 100%
@@ -64,7 +72,13 @@ G28 Z ;Re-home Z with calibrated position_endstop now applied — critical for c
 M190 S[bed_temperature_initial_layer_single] ;Wait for bed at print temp (G29 waits at 60°C)
 M400
 M8210 S[bed_temperature_initial_layer_single] ;Set bed mesh temp to match print temp
-BED_MESH_CALIBRATE METHOD=fast ;Run mesh scan
+{if bed_mesh_mode == 0}
+;BED_MESH_CALIBRATE skipped — bed_mesh_mode=0, using existing mesh
+{elsif bed_mesh_mode == 1}
+BED_MESH_CALIBRATE METHOD=fast ;Run mesh scan (fast)
+{elsif bed_mesh_mode == 2}
+BED_MESH_CALIBRATE ;Run mesh scan (full)
+{endif}
 M211 S1 ;Re-enable software endstops — G29 does this after mesh completes
 
 ;=============turn on fans to prevent PLA jamming=================
